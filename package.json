@@ -1,0 +1,30 @@
+{
+    "name": "mcp-te-benchmark",
+    "version": "1.0.0",
+    "description": "MCP Tool Efficiency (TE) Benchmark",
+    "main": "src/server/dashboard-server.js",
+    "scripts": {
+        "start": "node src/server/dashboard-server.js",
+        "test": "mocha tests/**/*.test.js",
+        "test:watch": "mocha tests/**/*.test.js --watch",
+        "lint": "eslint src/**/*.js tests/**/*.js",
+        "generate-summary": "node src/cli/generate-summary.js",
+        "extract-metrics": "./scripts/extract-metrics.sh"
+    },
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "twilio": "^5.5.1",
+        "winston": "^3.8.2"
+    },
+    "devDependencies": {
+        "chai": "^4.3.7",
+        "eslint": "^8.36.0",
+        "mocha": "^10.2.0",
+        "sinon": "^15.0.2",
+        "supertest": "^6.3.3"
+    }
+}
