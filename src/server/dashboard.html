@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MCP-TE Data Explorer</title>
+    <title>MCP-TE</title>
     <link rel="icon" type="image/x-icon" href="/docs/flavicon.ico">
     <link rel="stylesheet" href="/css/dashboard.css">
     <!-- Include Chart.js from CDN -->
@@ -17,20 +17,63 @@
             </a>
             <div class="header-content">
                 <h1>Model Context Protocol Task Efficiency (MCP-TE) Benchmark</h1>
-                <p>Data exploration and analysis platform for MCP performance metrics.</p>
+                <p>Compare the performance metrics of AI Coding Agents using default tools (Control) and those utilizing MCP implementations.</p>
             </div>
         </header>
         
-        <nav class="navigation">
-            <a href="/" class="nav-link">Overview</a>
-            <a href="/explore" class="nav-link active">Explore Data</a>
-        </nav>
-
-        <!-- Quick Summary Section -->
+        <!-- Test Approaches -->
         <div class="card">
-            <h2>Quick Summary</h2>
-            <div id="quickSummary" class="quick-summary">
-                <!-- Will be populated by JavaScript -->
+            <h2>Test Approach</h2>
+            <div class="metrics" style="display: flex; flex-direction: column; gap: 1rem;">
+                <!-- Full-width box -->
+                <div class="metric-card" style="width: 100%;">
+                    <div class="metric-title">Testing Environment & Methodology</div>
+                    <p>Tests are conducted using Cursor IDE in "auto-run" mode, allowing AI agents to execute actions autonomously. Task duration, API calls, user interactions, token usage, and cost are automatically tracked by the system according to the methodology documented in our <a href="https://github.com/nmogil-tw/mcp-te-benchmark" target="_blank" style="color: var(--primary);">GitHub repository</a>.</p>
+                    <p style="margin-top: 10px">Each task is performed twice - once using traditional methods and once using MCP. The results are stored in summary.json which serves as the single source of truth for this dashboard.</p>
+                </div>
+                <!-- Two side-by-side boxes container -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="metric-card">
+                        <div class="metric-title">
+                            <span class="badge badge-control">Control</span>
+                        </div>
+                        <p>Traditional method using web search and terminal capabilities to complete API tasks. The Control approach requires manually looking up documentation and writing code from scratch.</p>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">
+                            <span class="badge badge-mcp">MCP</span>
+                        </div>
+                        <p>Model Context Protocol approach that provides AI coding agents with direct access to API functions. MCP enables AI to understand API structure without external documentation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Task Description -->
+        <div class="card">
+            <h2>Task Description</h2>
+            <div class="tabs" id="taskTabs">
+                <div class="tab active" data-task="1">Task 1</div>
+                <div class="tab" data-task="2">Task 2</div>
+                <div class="tab" data-task="3">Task 3</div>
+            </div>
+            <div class="task-content" id="task-1">
+                <div class="metric-card">
+                    <div class="metric-title">Task 1: Purchase a Canadian Phone Number</div>
+                    <p>Search for and purchase an available Canadian phone number (preferably with area code 416).</p>
+                </div>
+            </div>
+            <div class="task-content" id="task-2" style="display: none;">
+                <div class="metric-card">
+                    <div class="metric-title">Task 2: Create a Task Router Activity</div>
+                    <p>Create a new Task Router activity named "Bathroom", this already exists so the Agent won't be able to create it.</p>
+                </div>
+            </div>
+            <div class="task-content" id="task-3" style="display: none;">
+                <div class="metric-card">
+                    <div class="metric-title">Task 3: Create a Queue with Task Filter</div>
+                    <p>Create a queue with a task filter that prevents routing tasks to workers in the "Bathroom" activity.</p>
+                </div>
             </div>
         </div>
 
@@ -104,12 +147,6 @@
                 </button>
                 <button id="downloadBtn" class="btn btn-secondary">
                     <span>↓</span> Download CSV
-                </button>
-                <button id="exportPdfBtn" class="btn btn-secondary">
-                    <span>↓</span> Export as PDF
-                </button>
-                <button id="exportImageBtn" class="btn btn-secondary">
-                    <span>↓</span> Export Charts as Images
                 </button>
                 <div id="loading" class="loading">
                     <div class="spinner"></div>
