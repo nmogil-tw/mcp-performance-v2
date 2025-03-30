@@ -10,26 +10,16 @@ Measure the time required to complete each task using traditional API approaches
 
 ## Metrics Collection
 
-### Simplified Approach
-We will focus only on tracking:
-1. **When a task starts**
-2. **When a task ends**
+### Automated Approach
+Metrics are now automatically collected from Claude chat logs. The system tracks:
 
-This allows us to calculate the total duration without complicated instrumentation.
+1. **Duration:** Time from task start to completion
+2. **API Calls:** Number of API calls made during task completion
+3. **Interactions:** Number of exchanges between the user and the AI assistant
+4. **Token Usage:** Input and output tokens used during the task
+5. **Cost:** Estimated cost based on token usage
 
-### Task Timing Commands
-
-The AI assistant should execute only these two commands per task:
-
-1. **Task Start**:
-   ```bash
-   curl -X POST http://localhost:3000/test/start -H "Content-Type: application/json" -d '{"taskId": TASK_NUMBER, "mode": "MODE"}'
-   ```
-
-2. **Task Completion**:
-   ```bash
-   curl -X POST http://localhost:3000/test/complete -H "Content-Type: application/json" -d '{"sessionId": "SESSION_ID", "success": true|false, "notes": "Any notes about completion"}'
-   ```
+No manual timing commands are needed. The AI assistant simply completes the task, and all metrics are extracted from the chat logs afterward.
 
 ## Test Tasks
 
@@ -48,44 +38,60 @@ The AI assistant should execute only these two commands per task:
 ## Testing Procedure
 
 ### Setup
-1. Start the metrics server:
+1. Start the dashboard server:
    ```bash
-   node metrics-server.js
-   ```
-
-2. (Optional) Start the dashboard server for real-time visualization:
-   ```bash
-   node server.js
+   npm start
    ```
 
 ### Running Tests
 For each test:
 
-1. Execute the test runner:
-   ```bash
-   ./run-test.sh [control|mcp] [1|2|3]
-   ```
+1. Open Cline and start a new chat with Claude
 
-2. Follow the on-screen instructions:
-   - Open Cursor and start a new chat
-   - Upload the appropriate instruction file as context
-   - Start the test with: `Complete Task [TASK_NUMBER] using the commands in the instructions`
+2. Upload the appropriate instruction file as context:
+   - For control tests: `agent-instructions/control_instructions.md`
+   - For MCP tests: `agent-instructions/mcp_instructions.md`
 
-3. The AI assistant should:
-   - Execute the start command when beginning the task
-   - Execute the complete command when finishing the task
+3. Start the test with: `Complete Task [TASK_NUMBER] using the commands in the instructions`
 
-4. Press Enter in the terminal window when finished
+4. The AI assistant will complete the task, and all metrics will be automatically collected from the chat logs
 
-### Verification
-Confirm in the results.md file:
-- Start time was recorded
-- End time was recorded
-- Duration was calculated
+## Extracting Metrics from Chat Logs
+
+After running tests, you need to extract metrics from the Claude chat logs:
+
+```bash
+npm run extract-metrics
+```
+
+This script analyzes the Claude chat logs and automatically extracts:
+- Duration of each task
+- Number of API calls
+- Number of user interactions
+- Token usage and estimated cost
+- Success/failure status
+
+You can also specify the model, client, and server names to use in the metrics:
+
+```bash
+npm run extract-metrics -- --model <model-name> --client <client-name> --server <server-name>
+```
+
+For example:
+```bash
+npm run extract-metrics -- --model claude-3.7-sonnet --client Cline --server Twilio
+```
+
+These arguments are optional and will override any values found in the logs or the default values. This is useful when the information isn't available in the logs or needs to be standardized across different runs.
+
+Additional options:
+- `--force` or `-f`: Force regeneration of all metrics, even if they already exist
+- `--verbose` or `-v`: Enable verbose logging for debugging
+- `--help` or `-h`: Show help message
 
 ## Results Analysis
 
-After tests are complete, you have multiple ways to view and analyze results:
+After tests are complete and metrics are extracted, you have multiple ways to view and analyze results:
 
 ### Interactive Dashboard
 The dashboard provides visual comparison of metrics:
@@ -107,21 +113,22 @@ The dashboard provides visual comparison of metrics:
 ### Command Line Summary
 For a text-based summary:
 ```bash
-node generate-summary.js
+npm run regenerate-summary
 ```
 
 The performance improvement will be shown as percentage reduction in task completion time.
 
 ## Troubleshooting
 
-If timing data is not being recorded properly:
-- Ensure the metrics server is running
-- Check that the AI assistant is executing both the start and complete commands
-- Verify the sessionId is being passed correctly from start to complete
+If metrics are not being extracted properly:
+- Ensure the chat logs are being saved correctly in Cline
+- Check that the AI assistant completed the task successfully
+- Try running the extraction with the `--verbose` flag for more detailed logging:
+  ```bash
+  npm run extract-metrics -- --verbose
+  ```
 
 For dashboard issues:
-- Make sure both servers are running (metrics-server.js on port 3000 and server.js on port 3001)
+- Make sure the dashboard server is running (`npm start`)
 - Check browser console for any JavaScript errors
-- Verify metrics files exist in the metrics directory
-
-This approach focuses on task completion time while providing comprehensive visualization for analysis.
+- Verify metrics files exist in the `src/server/metrics/` directory
