@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP-TE Benchmark</title>
+    <link rel="icon" type="image/x-icon" href="/docs/flavicon.ico">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="https://twilioalpha.com/" target="_blank" rel="noopener noreferrer">
+                <img src="/docs/twilioAlphaLogoLight.png" alt="Twilio Alpha" class="logo">
+            </a>
+            <div class="header-content">
+                <h1>Model Context Protocol Task Efficiency (MCP-TE) Benchmark</h1>
+                <p>A standardized framework for evaluating the efficiency gains of AI agents using Model Context Protocol</p>
+            </div>
+        </header>
+
+        <nav class="navigation">
+            <a href="/" class="nav-link active">Overview</a>
+            <a href="/explore" class="nav-link">Explore Data</a>
+        </nav>
+        
+        <!-- Project Overview -->
+        <div class="card">
+            <h2>Project Overview</h2>
+            <p>The MCP-TE Benchmark is designed to measure the efficiency gains when AI coding agents utilize structured context protocols (like MCP) compared to traditional development methods. As AI coding assistants become more integrated into development workflows, understanding how they interact with APIs becomes increasingly important for optimizing developer productivity and cost.</p>
+            
+            <div class="call-to-action">
+                <a href="/explore" class="btn">Explore the Data</a>
+            </div>
+        </div>
+        
+        <!-- Key Findings -->
+        <div class="card">
+            <h2>Key Findings</h2>
+            <div class="stat-card">
+                <div class="stat-item">
+                    <div class="stat-value">-1.4%</div>
+                    <div class="stat-label">Time Efficiency</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">-63.8%</div>
+                    <div class="stat-label">API Calls Reduction</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">-16.7%</div>
+                    <div class="stat-label">Interaction Reduction</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+            </div>
+            
+            <p>Our benchmark reveals that MCP implementation significantly reduces API calls needed to complete tasks, with minimal impact on overall task duration. The reduction in API calls demonstrates more efficient API navigation and usage when structured protocols are available.</p>
+        </div>
+
+        <!-- Methodology -->
+        <div class="card">
+            <h2>Testing Methodology</h2>
+            <div class="methodology-grid">
+                <div class="methodology-item">
+                    <h3>Test Environment</h3>
+                    <p>Tests are conducted using Cursor IDE in "auto-run" mode, allowing AI agents to execute actions autonomously. We use Claude 3.7 Sonnet as our primary AI model and Twilio APIs as our testing platform.</p>
+                </div>
+                <div class="methodology-item">
+                    <h3>Metrics Collection</h3>
+                    <p>We automatically track and extract the following metrics from each test session:</p>
+                    <ul>
+                        <li>Duration: Time taken to complete tasks</li>
+                        <li>API Calls: Number of API calls made</li>
+                        <li>Interactions: Number of exchanges between user and AI</li>
+                        <li>Token Usage: Input and output tokens used</li>
+                        <li>Cache Performance: Reads and writes to internal cache</li>
+                        <li>Cost: Estimated cost based on token usage</li>
+                    </ul>
+                </div>
+                <div class="methodology-item">
+                    <h3>Test Groups</h3>
+                    <div class="test-groups">
+                        <div class="test-group">
+                            <span class="badge badge-control">Control</span>
+                            <p>Traditional method using web search and terminal capabilities to complete API tasks. The Control approach requires manually looking up documentation and writing code from scratch.</p>
+                        </div>
+                        <div class="test-group">
+                            <span class="badge badge-mcp">MCP</span>
+                            <p>Model Context Protocol approach that provides AI coding agents with direct access to API functions. MCP enables AI to understand API structure without external documentation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Task Description -->
+        <div class="card">
+            <h2>Benchmark Tasks</h2>
+            <div class="tasks-grid">
+                <div class="task-item">
+                    <h3>Task 1: Purchase a Canadian Phone Number</h3>
+                    <p>Search for and purchase an available Canadian phone number (preferably with area code 416).</p>
+                    <p><strong>Challenge:</strong> Requires understanding available API endpoints, search parameters, and purchase flow.</p>
+                </div>
+                <div class="task-item">
+                    <h3>Task 2: Create a Task Router Activity</h3>
+                    <p>Create a new Task Router activity named "Bathroom".</p>
+                    <p><strong>Challenge:</strong> Requires understanding Twilio's TaskRouter concepts and API structures.</p>
+                </div>
+                <div class="task-item">
+                    <h3>Task 3: Create a Queue with Task Filter</h3>
+                    <p>Create a queue with a task filter that prevents routing tasks to workers in the "Bathroom" activity.</p>
+                    <p><strong>Challenge:</strong> Requires understanding of filter syntax and queue configuration parameters.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Insights -->
+        <div class="card">
+            <h2>Insights & Implications</h2>
+            <div class="insights">
+                <div class="insight">
+                    <h3>API Efficiency</h3>
+                    <p>MCP significantly reduces API calls (63.8% reduction) by providing structured access to API functions. This suggests MCP helps AI assistants navigate APIs more efficiently, reducing trial-and-error approaches.</p>
+                </div>
+                <div class="insight">
+                    <h3>Time Efficiency</h3>
+                    <p>Despite fewer API calls, the overall time efficiency shows only a modest improvement (-1.4%). This suggests that while MCP streamlines API interaction, other factors like planning and context processing still influence overall task duration.</p>
+                </div>
+                <div class="insight">
+                    <h3>Developer Experience</h3>
+                    <p>The reduction in interactions (-16.7%) indicates that developers need to provide less guidance when MCP is available, potentially improving workflow and reducing context switching.</p>
+                </div>
+                <div class="insight">
+                    <h3>Future Directions</h3>
+                    <p>These results suggest that MCP provides the most value in complex API ecosystems where traditional documentation is extensive or difficult to navigate. Future benchmarks could explore this hypothesis across different API complexities.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Model Context Protocol Performance Dashboard</p>
+            <p>Last updated: <span id="lastUpdated">March 30, 2025</span></p>
+        </div>
+    </div>
+
+    <script src="/js/home.js"></script>
+</body>
+</html>

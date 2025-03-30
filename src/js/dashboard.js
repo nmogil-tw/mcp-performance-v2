@@ -85,8 +85,12 @@ function displayMetrics() {
     
     if (controlSessions.length === 0 || mcpSessions.length === 0) {
         document.getElementById('summary').innerHTML = '<p>No data available for the selected filters.</p>';
+        document.getElementById('quickSummary').innerHTML = '<p>No data available for the selected filters.</p>';
         return;
     }
+    
+    // Generate and display quick summary
+    displayQuickSummary(controlSessions, mcpSessions);
     
     const metrics = {
         'Average Duration': {
@@ -649,6 +653,26 @@ function percentageChange(newValue, oldValue) {
     return oldValue ? (((newValue - oldValue) / oldValue) * 100).toFixed(1) : 'N/A';
 }
 
+// Generate and display quick summary
+function displayQuickSummary(controlSessions, mcpSessions) {
+    const avgControlDuration = average(controlSessions.map(s => s.duration)) / 1000;
+    const avgMcpDuration = average(mcpSessions.map(s => s.duration)) / 1000;
+    const durationChange = percentageChange(avgMcpDuration, avgControlDuration);
+    
+    const avgControlCalls = average(controlSessions.map(s => s.apiCalls));
+    const avgMcpCalls = average(mcpSessions.map(s => s.apiCalls));
+    const callsChange = percentageChange(avgMcpCalls, avgControlCalls);
+    
+    document.getElementById('quickSummary').innerHTML = `
+        <p>Based on the selected data, MCP implementation shows:</p>
+        <ul>
+            <li><strong>${durationChange}%</strong> change in task completion time (Control: ${avgControlDuration.toFixed(1)}s vs MCP: ${avgMcpDuration.toFixed(1)}s)</li>
+            <li><strong>${callsChange}%</strong> change in API calls (Control: ${avgControlCalls.toFixed(1)} vs MCP: ${avgMcpCalls.toFixed(1)})</li>
+        </ul>
+        <p>Data represents ${controlSessions.length} control sessions and ${mcpSessions.length} MCP sessions.</p>
+    `;
+}
+
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
     // Load data when page loads
@@ -742,5 +766,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add download button functionality
     document.getElementById('downloadBtn').addEventListener('click', () => {
         downloadCsv();
+    });
+    
+    // Export charts as images
+    document.getElementById('exportImageBtn').addEventListener('click', () => {
+        const chartCanvas = document.getElementById('comparisonChart');
+        const image = chartCanvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = image;
+        link.download = 'mcp-comparison-chart.png';
+        link.click();
+    });
+    
+    // Export as PDF functionality (placeholder - would require additional library)
+    document.getElementById('exportPdfBtn').addEventListener('click', () => {
+        alert('PDF export functionality would require a PDF generation library like jsPDF. This is a placeholder for that feature.');
     });
 });

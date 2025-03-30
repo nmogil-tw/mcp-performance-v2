@@ -19,10 +19,12 @@ const MIME_TYPES = {
 const server = http.createServer((req, res) => {
   console.log(`${req.method} ${req.url}`);
   
-  // Handle the root path
+  // Handle different routes
   let filePath;
-  if (req.url === '/') {
-    filePath = path.join(__dirname, 'dashboard.html');
+  if (req.url === '/' || req.url === '/index.html') {
+    filePath = path.join(__dirname, 'index.html');
+  } else if (req.url === '/explore' || req.url === '/explore.html') {
+    filePath = path.join(__dirname, 'explore.html'); 
   } else if (req.url.startsWith('/metrics/')) {
     // Serve metrics files from the metrics directory
     filePath = path.join(__dirname, req.url);
