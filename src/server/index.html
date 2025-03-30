@@ -39,19 +39,19 @@
             <h2>Key Findings</h2>
             <div class="stat-card">
                 <div class="stat-item">
-                    <div class="stat-value">-1.4%</div>
+                    <div id="timeEfficiency" class="stat-value">-1.4%</div>
                     <div class="stat-label">Time Efficiency</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">-63.8%</div>
+                    <div id="apiCallsReduction" class="stat-value">-63.8%</div>
                     <div class="stat-label">API Calls Reduction</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">-16.7%</div>
+                    <div id="interactionReduction" class="stat-value">-16.7%</div>
                     <div class="stat-label">Interaction Reduction</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">100%</div>
+                    <div id="successRate" class="stat-value">100%</div>
                     <div class="stat-label">Success Rate</div>
                 </div>
             </div>
@@ -66,6 +66,8 @@
                 <div class="methodology-item">
                     <h3>Test Environment</h3>
                     <p>Tests are conducted using Cursor IDE in "auto-run" mode, allowing AI agents to execute actions autonomously. We use Claude 3.7 Sonnet as our primary AI model and Twilio APIs as our testing platform.</p>
+                    <p>Task duration, API calls, user interactions, token usage, and cost are automatically tracked by the system according to the methodology documented in our <a href="https://github.com/nmogil-tw/mcp-te-benchmark" target="_blank" style="color: var(--primary);">GitHub repository</a>.</p>
+                    <p>Each task is performed twice - once using traditional methods and once using MCP. The results are stored in summary.json which serves as the single source of truth for this dashboard.</p>
                 </div>
                 <div class="methodology-item">
                     <h3>Metrics Collection</h3>
@@ -123,15 +125,15 @@
             <div class="insights">
                 <div class="insight">
                     <h3>API Efficiency</h3>
-                    <p>MCP significantly reduces API calls (63.8% reduction) by providing structured access to API functions. This suggests MCP helps AI assistants navigate APIs more efficiently, reducing trial-and-error approaches.</p>
+                    <p>MCP significantly reduces API calls by providing structured access to API functions. This suggests MCP helps AI assistants navigate APIs more efficiently, reducing trial-and-error approaches.</p>
                 </div>
                 <div class="insight">
                     <h3>Time Efficiency</h3>
-                    <p>Despite fewer API calls, the overall time efficiency shows only a modest improvement (-1.4%). This suggests that while MCP streamlines API interaction, other factors like planning and context processing still influence overall task duration.</p>
+                    <p>Despite fewer API calls, the overall time efficiency shows only a modest improvement. This suggests that while MCP streamlines API interaction, other factors like planning and context processing still influence overall task duration.</p>
                 </div>
                 <div class="insight">
                     <h3>Developer Experience</h3>
-                    <p>The reduction in interactions (-16.7%) indicates that developers need to provide less guidance when MCP is available, potentially improving workflow and reducing context switching.</p>
+                    <p>The reduction in interactions indicates that developers need to provide less guidance when MCP is available, potentially improving workflow and reducing context switching.</p>
                 </div>
                 <div class="insight">
                     <h3>Future Directions</h3>
