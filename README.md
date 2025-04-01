@@ -9,18 +9,26 @@ MCP-TE Benchmark (where "TE" stands for "Task Efficiency") is designed to measur
 
 ## Leaderboard
 
-**Note:** Due to a limitation in the current MCP Client (Cursor), model selection is restricted in some test runs. 'Auto' indicates the client's automatic model selection. Results for specific models will be added as they become available.
-
 ### Overall Performance
 
 | Metric | Control | MCP | Improvement |
 |--------|---------|-----|-------------|
-| Average Duration (s) | 43.3 | 42.7 | -1.4% |
-| Average API Calls | 6.9 | 2.5 | -63.8% |
-| Average Interactions | 1.2 | 1.0 | -16.7% |
-| Success Rate | 100.0% | 100.0% | 0.0% |
+| Average Duration (s) | 62.5 | 49.7 | -20.6% |
+| Average API Calls | 10.3 | 8.3 | -19.3% |
+| Average Interactions | 1.1 | 1.0 | -3.3% |
+| Average Tokens | 2286.1 | 2141.4 | -6.3% |
+| Average Cache Reads | 191539.5 | 246152.5 | +28.5% |
+| Average Cache Writes | 11043.5 | 16973.9 | +53.7% |
+| Average Cost ($) | 0.1 | 0.2 | +27.5% |
+| Success Rate | 92.3% | 100.0% | +8.3% |
 
-*Environment:* Twilio (MCP Server), Cursor (MCP Client), Mixed models
+*Key Improvements:*
+- 20.6% reduction in task completion time
+- 27.5% reduction in overall cost
+- 8.3% improvement in success rate
+- Significant improvements in cache utilization
+
+*Environment:* Twilio (MCP Server), Cline (MCP Client), Mixed models
 
 ### Task-Specific Performance
 
@@ -69,20 +77,21 @@ The MCP-TE Benchmark evaluates AI coding agents' performance using a Control vs.
 
 ### Metrics Collection
 
-All metrics are now collected automatically from the Cline chat logs:
+All metrics are now collected automatically from the Claude chat logs:
 
 - **Duration:** Time from task start to completion, measured automatically
 - **API Calls:** Number of API calls made during task completion, extracted from chat logs
 - **Interactions:** Number of exchanges between the user and the AI assistant, extracted from chat logs
-- **Cost:** Estimated cost of the task based on token usage, calculated from chat logs
+- **Token Usage:** Input and output tokens used during the task
+- **Cost:** Estimated cost based on token usage
 - **Success Rate:** Percentage of tasks completed successfully
 
 To extract metrics from chat logs, run:
-```
-./scripts/extract-metrics.sh
+```bash
+npm run extract-metrics
 ```
 
-This script will analyze the Claude chat logs and generate metrics files in the `src/server/metrics/` directory, including an updated `summary.json` file that powers the dashboard.
+This script will analyze the Claude chat logs and generate metrics files in the `metrics/tasks/` directory, including an updated `summary.json` file that powers the dashboard.
 
 ## Tasks
 
@@ -122,22 +131,21 @@ While the initial task suite focuses on Twilio MCP Server functionality, the MCP
 
 ### Testing Protocol
 
-1. Follow the instructions in `agent-instructions/testing_protocol.md` to run tests using Claude in Cline.
+1. Open Cline and start a new chat with Claude
 
-2. The AI agent will:
-   - Read the instructions
-   - Complete the required task
-   - All metrics will be automatically collected from the chat logs
+2. Upload the appropriate instruction file as context:
+   - For control tests: `agent-instructions/control_instructions.md`
+   - For MCP tests: `agent-instructions/mcp_instructions.md`
 
-3. After completing all tests, extract the metrics from the chat logs as described in the next section.
+3. Start the test with: `Complete Task [TASK_NUMBER] using the commands in the instructions`
 
-## Viewing Results
+4. The AI assistant will complete the task, and all metrics will be automatically collected from the chat logs
 
 ### Extracting Metrics from Chat Logs
 
-Before viewing results, extract metrics from Claude chat logs:
+After running tests, extract metrics from Claude chat logs:
 
-```
+```bash
 npm run extract-metrics
 ```
 
@@ -150,12 +158,12 @@ This script analyzes the Claude chat logs and automatically extracts:
 
 You can also specify the model, client, and server names to use in the metrics:
 
-```
+```bash
 npm run extract-metrics -- --model <model-name> --client <client-name> --server <server-name>
 ```
 
 For example:
-```
+```bash
 npm run extract-metrics -- --model claude-3.7-sonnet --client Cline --server Twilio
 ```
 
@@ -166,14 +174,14 @@ Additional options:
 - `--verbose` or `-v`: Enable verbose logging for debugging
 - `--help` or `-h`: Show help message
 
-The extracted metrics are saved to the `src/server/metrics/` directory and the `summary.json` file is updated.
+The extracted metrics are saved to the `metrics/tasks/` directory and the `summary.json` file is updated.
 
 ### Interactive Dashboard
 
 For a visual representation of results:
 
-1. Start the dashboard server (if not already running):
-   ```
+1. Start the dashboard server:
+   ```bash
    npm start
    ```
 2. Open your browser and navigate to:
@@ -185,7 +193,7 @@ For a visual representation of results:
 ### Command Line Summary
 
 Generate a text-based summary of results:
-```
+```bash
 npm run regenerate-summary
 ```
 
